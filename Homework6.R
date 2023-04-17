@@ -21,3 +21,12 @@ NCSC = data %>% filter(State == " NC" | State == " SC")
 NCSC_Cities = NCSC %>% group_by(State, City) %>%  summarise(n = n())
 
 #They looked at Charleston and Charlotte
+
+all(str_detect(NCSC$ScientificName, "^[[:alnum:]]+ [[:digit:]]+$"))
+
+NCSC$genus = c()
+NCSC$species = c()
+#split up data by column to create state and city column
+NCSC[,c("genus", "species")] = str_split_fixed(NCSC$ScientificName, " ", n=2) 
+By_genus = NCSC %>% group_by(State, genus) %>% summarise(average = mean(`AvgCdia (m)`))
+#In both NC and SC, the largest genus was Quercus.
