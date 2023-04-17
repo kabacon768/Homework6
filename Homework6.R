@@ -30,3 +30,18 @@ NCSC$species = c()
 NCSC[,c("genus", "species")] = str_split_fixed(NCSC$ScientificName, " ", n=2) 
 By_genus = NCSC %>% group_by(State, genus) %>% summarise(average = mean(`AvgCdia (m)`))
 #In both NC and SC, the largest genus was Quercus.
+
+#extra credit
+
+#tree age
+
+age_by_genus = NCSC %>% group_by(genus) %>% summarise(average = mean(Age))
+#Yes, Quercus averages older at 35, this oculd explain results from before- in thatt hey would have bigger canopies. 
+
+#Now this shows me my average area by age and genus. 
+by_age = NCSC %>% group_by(Age, genus) %>% summarise(average = mean(`AvgCdia (m)`))
+#I want a tree that is young but still averages with a large canopy. 
+
+#I looked at this plot to figure out which genus I should recommend. THe one that jumped out at me was the one that was young and peaked at about 25. Ulmus was this genus. It produces a relatively large crown quickly.
+ggplot(by_age, aes(x = average, y = Age, color = genus)) +
+ geom_line()
